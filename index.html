@@ -132,27 +132,73 @@
 
 <script>
 (function() {
-    // ---------- 生成 images2 文件夹中的 48 张图片（文件1.jpg ~ 文件48.jpg）并随机打乱 ----------
-    function generateImageList() {
-        const list = [];
-        for (let i = 1; i <= 48; i++) {
-            list.push(`./images2/文件${i}.jpg`);
-        }
-        // Fisher-Yates 洗牌算法 - 随机打乱
-        for (let i = list.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [list[i], list[j]] = [list[j], list[i]];
-        }
-        return list;
-    }
-
-    const imageList = generateImageList();
+    // ---------- 所有本地图片路径 ----------
+    const imageList = [
+        "./images/作品集_1-1.png",
+        "./images/作品集_1-2.png",
+        "./images/作品集_1-3.png",
+        "./images/作品集_1-4.png",
+        "./images/作品集_1-5.png",
+        "./images/作品集_2-1-1.png",
+        "./images/作品集_2-1.png",
+        "./images/作品集_2-2.png",
+        "./images/作品集_2-3.png",
+        "./images/作品集_2-4.png",
+        "./images/作品集_3-1.png",
+        "./images/作品集_3-2.png",
+        "./images/作品集_3-3.png",
+        "./images/作品集_3-4.png",
+        "./images/作品集_3-5.png",
+        "./images/作品集_4-1.png",
+        "./images/作品集_4-2.png",
+        "./images/作品集_4-3.png",
+        "./images/作品集_4-4.png",
+        "./images/作品集_4-5.png",
+        "./images/作品集_5-1.png",
+        "./images/作品集_5-2.png",
+        "./images/作品集_6-1.png",
+        "./images/作品集_6-2.png",
+        "./images/作品集_6-3.png",
+        "./images/作品集_6-4.png",
+        "./images/作品集_7-1.png",
+        "./images/作品集_7-2.png",
+        "./images/作品集_7-3.png",
+        "./images/作品集_7-4.png",
+        "./images/作品集_7-5.png",
+        "./images/作品集_8-1.png",
+        "./images/作品集_8-2.png",
+        "./images/作品集_8-3.png",
+        "./images/作品集_8-4.png",
+        "./images/作品集_8-5.png",
+        "./images/作品集_8-6.png",
+        "./images/作品集_8-7.png",
+        "./images/作品集_8-8.png",
+        "./images/作品集_9.png",
+        "./images/作品集_10.png",
+        "./images/作品集_11-1.png",
+        "./images/作品集_11-2.png",
+        "./images/作品集_14-1.png",
+        "./images/作品集_14-2.png",
+        "./images/作品集_14-3.png",
+        "./images/作品集_14-5.png",
+        "./images/作品集_14-6.png",
+        "./images/作品集_14-7.png",
+        "./images/作品集_16-1.png",
+        "./images/作品集_16-2.png",
+        "./images/作品集_16-4.png",
+        "./images/作品集_16-5.png",
+        "./images/作品集_16-6.png",
+        "./images/作品集_16-7.png",
+        "./images/作品集_18-1.png",
+        "./images/作品集_18-2.png",
+        "./images/作品集_18-3.png",
+        "./images/作品集_18-4.png"
+    ];
 
     const bgImg = document.getElementById('bgSlider');
     const nav = document.getElementById('mainNav');
     let currentIndex = 0;
     let isTransitioning = false;
-    let preloadedImages = {}; // 缓存已加载的图片
 
     // ---------- 计算图片平均亮度 ----------
     function getImageBrightness(img) {
@@ -183,115 +229,42 @@
         }
     }
 
-    // ---------- 预加载下一张图片 ----------
-    function preloadImage(src) {
-        return new Promise((resolve) => {
-            if (preloadedImages[src]) {
-                resolve(preloadedImages[src]);
-                return;
-            }
-            const img = new Image();
-            img.onload = function() {
-                preloadedImages[src] = img;
-                resolve(img);
-            };
-            img.onerror = function() {
-                // 如果加载失败，创建一个黑色占位图，避免卡死
-                console.warn('图片加载失败，使用占位:', src);
-                const fallbackImg = new Image();
-                fallbackImg.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080"%3E%3Crect width="1920" height="1080" fill="%23000000"/%3E%3C/svg%3E';
-                preloadedImages[src] = fallbackImg;
-                resolve(fallbackImg);
-            };
-            img.src = src;
-        });
-    }
-
     // ---------- 切换背景图 ----------
     function nextImage() {
         if (isTransitioning) return;
         isTransitioning = true;
 
-        // 移除 active 触发淡出
         bgImg.classList.remove('active');
 
-        // 计算下一张索引
-        const nextIndex = (currentIndex + 1) % imageList.length;
-        const nextSrc = imageList[nextIndex];
+        setTimeout(() => {
+            currentIndex = (currentIndex + 1) % imageList.length;
+            bgImg.src = imageList[currentIndex];
+            bgImg.classList.add('active');
 
-        // 预加载下一张图片
-        preloadImage(nextSrc).then((preloadedImg) => {
-            // 更新索引
-            currentIndex = nextIndex;
-
-            // 设置图片源（使用预加载的图片的 src，或者直接使用 URL）
-            // 注意：如果直接使用 preloadedImg 对象，可能无法正确显示，因为 img 元素需要 src 属性
-            // 这里我们直接设置 src，浏览器会从缓存中读取
-            bgImg.src = nextSrc;
-
-            // 使用一个独立函数来处理图片加载完成后的操作
-            function handleLoad() {
-                // 清理旧的 onload 绑定，防止重复触发
-                bgImg.onload = null;
-                bgImg.onerror = null;
-
-                // 计算亮度并更新菜单颜色
+            bgImg.onload = function() {
                 const brightness = getImageBrightness(bgImg);
                 updateMenuColor(brightness);
-
-                // 添加 active 触发淡入
-                bgImg.classList.add('active');
-
-                isTransitioning = false;
-            }
-
-            // 绑定 onload 事件
-            bgImg.onload = handleLoad;
-            bgImg.onerror = function() {
-                // 加载失败时，使用黑色背景并继续
-                console.warn('背景图加载失败，使用黑色背景');
-                updateMenuColor(0);
-                bgImg.classList.add('active');
-                isTransitioning = false;
-                bgImg.onload = null;
-                bgImg.onerror = null;
             };
-
-            // 如果图片已经在缓存中，onload 可能不会触发，手动检查
-            if (bgImg.complete && bgImg.naturalWidth > 0) {
-                handleLoad();
+            if (bgImg.complete) {
+                bgImg.onload && bgImg.onload();
             }
-        });
+
+            isTransitioning = false;
+        }, 1200);
     }
 
     // ---------- 初始化 ----------
-    // 预加载第一张图片
-    preloadImage(imageList[0]).then(() => {
-        bgImg.src = imageList[0];
-        
-        function initLoad() {
-            const brightness = getImageBrightness(bgImg);
-            updateMenuColor(brightness);
-            bgImg.classList.add('active');
-            // 清除初始化绑定
-            bgImg.onload = null;
-            bgImg.onerror = null;
-        }
+    bgImg.src = imageList[0];
+    bgImg.onload = function() {
+        const brightness = getImageBrightness(bgImg);
+        updateMenuColor(brightness);
+        bgImg.classList.add('active');
+    };
+    if (bgImg.complete) {
+        bgImg.onload && bgImg.onload();
+    }
 
-        bgImg.onload = initLoad;
-        bgImg.onerror = function() {
-            updateMenuColor(0);
-            bgImg.classList.add('active');
-            bgImg.onload = null;
-            bgImg.onerror = null;
-        };
-
-        if (bgImg.complete && bgImg.naturalWidth > 0) {
-            initLoad();
-        }
-    });
-
-    // ===== 轮播间隔 5000ms（5秒） =====
+    // ===== 轮播间隔从 4000ms（4秒）改为 5000ms（5秒） =====
     setInterval(nextImage, 5000);
 })();
 </script>
