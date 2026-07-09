@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | DESIGN BY © CHOOPCHEN Ltd.</title>
+    <!-- ===== 添加网站图标 ===== -->
+    <link rel="icon" type="image/png" href="./images/头像1.png">
+    <link rel="stylesheet" href="cursor-style.css">
+    <style>
+        /* ===== 添加本地字体声明 ===== */
+        @font-face {
+            font-family: 'MyMenuFont';
+            src: url('./fonts/Verdana.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        * { 
+            margin:0; padding:0; box-sizing:border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+        body { 
+            font-family: "MyMenuFont", "PingFang SC", "Microsoft YaHei", sans-serif; 
+            color:#000; 
+            line-height:1;
+            letter-spacing:0.3px; 
+            overflow-x:hidden; 
+            background:#fff;
+            position: relative;
+        }
+
+        .carousel-bg { 
+            position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:-1; 
+            background:#fff;
+        }
+
+        nav{
+            position:absolute;
+            top:12px; 
+            left:12px; 
+            z-index:999; 
+            display:flex; 
+            flex-direction:column; 
+            gap:4px;
+            font-family: 'MyMenuFont', Verdana, sans-serif;
+        }
+        .logo{
+            font-size:10px;
+            font-weight:400; 
+            color:#000;
+            line-height:0.8; 
+            transition:0.3s;
+            margin-bottom: 0;
+        }
+        .menu a, .menu span {
+            display:inline-block; 
+            text-decoration:none; 
+            color:#000;
+            font-size:10px;
+            font-weight:400; 
+            line-height:0.8; 
+            transition: all 0.4s cubic-bezier(0.19,1,0.22,1);
+        }
+        .menu a:hover{
+            transform: translateX(4px); 
+            opacity:0.7;
+            font-weight:400;
+        }
+        .link-group { 
+            display:flex;
+            align-items:center;
+            gap:2px;
+        }
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .section{
+            max-width:800px; margin:0 auto; padding:120px 20px 40px; position:relative; z-index:1;
+            text-align:center;
+        }
+        .title{
+            text-align:center; 
+            font-size:12px;
+            font-weight:400;
+            margin-bottom:60px; 
+            color:#000;
+            letter-spacing:0.3px;
+            line-height:1;
+        }
+        .contact-info{
+            color:#000;
+            font-size:12px;
+            line-height:2;
+        }
+    </style>
+</head>
+<body>
+
+<div class="cursor"></div><div class="cursor-trail"></div>
+<script src="cursor-script.js"></script>
+
+<nav>
+    <div class="logo">DESIGN BY © CHOOPCHEN Ltd.</div>
+    <div class="menu">
+        <a href="index.html">CC__Home</a>
+        <div class="link-group">
+            <a href="works.html">CC__Works</a><span>__</span><a href="photographs.html">Photographs</a>
+        </div>
+        <a href="about.html">CC__Information</a>
+        <a href="contact.html">CC__Contact</a>
+    </div>
+</nav>
+
+<section class="section">
+    <h2 class="title">Contact</h2>
+    <div class="contact-info">
+        E-mail: contact@choopchen.com<br>
+        Instagram: @choopchen<br>
+        WeChat: choopchen_studio
+    </div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+nav{
+    /* ... 其他属性 ... */
+    font-family: 'MyMenuFont', sans-serif;
+}
+.cursor {
+    position: fixed; width:6px; height:6px;
+    background:rgba(255,255,255,0.9); border-radius:50%;
+    pointer-events:none; mix-blend-mode:difference;
+    z-index:9999; will-change:transform; transform:translateZ(0);
+}
+.cursor.hover {transform:scale(1.6); background:rgba(255,255,255,0.4);}
+.cursor-trail {
+    position:fixed; width:18px; height:18px;
+    background:rgba(255,255,255,0.08); border-radius:50%;
+    pointer-events:none; z-index:9998; will-change:transform; transform:translateZ(0);
+}
+
+/* 全局鼠标隐藏（原代码里的cursor: none） */
+* {
+    cursor: none;
+}

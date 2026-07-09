@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Works | DESIGN BY © CHOOPCHEN Ltd.</title>
+    <link rel="icon" type="image/png" href="./images/头像1.png">
+    <link rel="stylesheet" href="cursor-style.css">
+    <link rel="stylesheet" href="apple-animation.css">
+    <style>
+        /* ===== 添加本地字体声明 ===== */
+        @font-face {
+            font-family: 'MyMenuFont';
+            src: url('./fonts/Verdana.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        * { 
+            margin:0; padding:0; box-sizing:border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+        body { 
+            font-family: "MyMenuFont", "PingFang SC", "Microsoft YaHei", sans-serif; 
+            color:#000; 
+            line-height:1;
+            letter-spacing:0.3px; 
+            overflow-x:hidden; 
+            background:#fff;
+            position: relative;
+        }
+
+        .carousel-bg { 
+            position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:-1; 
+            background:#fff;
+        }
+
+        nav{
+            position:absolute;
+            top:12px; 
+            left:12px; 
+            z-index:999; 
+            display:flex; 
+            flex-direction:column; 
+            gap:4px; 
+            font-family: 'MyMenuFont', Verdana, sans-serif; /* 应用字体 */
+        }
+        .logo{
+            font-size:10px;   /* 从9px改为10px */
+            font-weight:400; 
+            color:#000; 
+            line-height:0.8; 
+            transition:0.3s;
+            margin-bottom: 0;
+        }
+        .menu a, .menu span {
+            display:inline-block; 
+            text-decoration:none; 
+            color:#000; 
+            font-size:10px;   /* 从9px改为10px */
+            font-weight:400; 
+            line-height:0.8; 
+            transition: all 0.4s cubic-bezier(0.19,1,0.22,1);
+        }
+        .menu a:hover{
+            transform: translateX(4px); 
+            opacity:0.7;
+            font-weight:400;
+        }
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 2px; 
+        }
+        .link-group {
+            display: flex;
+            align-items: center;
+            gap: 2px; 
+        }
+
+        .section{
+            width: 100vw; 
+            margin:0 auto; 
+            padding:120px 0 40px; 
+            position:relative; z-index:1;
+        }
+        .title{
+            text-align:center; 
+            font-size:12px;
+            font-weight:400;
+            margin-bottom:60px; 
+            color:#000;
+            letter-spacing:0.3px;
+            line-height:1;
+            padding: 0 20px;
+        }
+        .grid{
+            display:flex; flex-direction:column; gap:100px; 
+            align-items: stretch; 
+            width: 100vw; 
+        }
+        .item{
+            width: 100vw; 
+            padding: 0 0; 
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.9s cubic-bezier(0.19,1,0.22,1), transform 0.9s cubic-bezier(0.19,1,0.22,1);
+        }
+        .item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .item img{
+            width: 100vw; 
+            height: auto; 
+            border-radius:0; 
+            display: block; 
+            opacity: 0;
+            transform: scale(0.92);
+            transition: 
+                opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), 
+                transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .item.visible img {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .item-caption {
+            padding: 0 20px;
+            margin-top: 18px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 1s cubic-bezier(0.19,1,0.22,1), transform 1s cubic-bezier(0.19,1,0.22,1);
+        }
+        .item.visible .item-caption {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.2s;
+        }
+        .item h3{
+            font-size:13px; font-weight:500; color:#000;
+            margin: 0; 
+        }
+        .item p{
+            font-size:11px; color:#333; margin-top:4px;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                top: 8px; 
+                left: 8px; 
+            }
+            .grid {
+                gap: 60px; 
+            }
+            .item-caption {
+                padding: 0 16px;
+            }
+            .item img {
+                transition-duration: 0.9s;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="cursor"></div><div class="cursor-trail"></div>
+<script src="cursor-script.js"></script>
+
+<nav>
+    <div class="logo">DESIGN BY © CHOOPCHEN Ltd.</div>
+    <div class="menu">
+        <a href="index.html">CC__Home</a>
+        <div class="link-group">
+            <a href="works.html">CC__Works</a><span>__</span><a href="photographs.html">Photographs</a>
+        </div>
+        <a href="about.html">CC__Information</a>
+        <a href="contact.html">CC__Contact</a>
+    </div>
+</nav>
+
+<section class="section">
+    <h2 class="title">Works</h2>
+    <div class="grid">
+        <!-- 所有作品项与原来完全一致，实际请保留原完整内容 -->
+        <div class="item">
+            <img src="./images/作品集_1-1.png" alt="KEY VISUAL 00">
+            <div class="item-caption">
+                <h3>KEY VISUAL 00</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_1-2.png" alt="KEY VISUAL 01">
+            <div class="item-caption">
+                <h3>KEY VISUAL 01</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_1-3.png" alt="KEY VISUAL 02">
+            <div class="item-caption">
+                <h3>KEY VISUAL 02</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_1-4.png" alt="KEY VISUAL 03">
+            <div class="item-caption">
+                <h3>KEY VISUAL 03</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_1-5.png" alt="KEY VISUAL 04">
+            <div class="item-caption">
+                <h3>KEY VISUAL 04</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_2-1-1.png" alt="KEY VISUAL 2-1-1">
+            <div class="item-caption">
+                <h3>KEY VISUAL 2-1-1</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_2-1.png" alt="KEY VISUAL 2-1">
+            <div class="item-caption">
+                <h3>KEY VISUAL 2-1</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_2-2.png" alt="KEY VISUAL 2-2">
+            <div class="item-caption">
+                <h3>KEY VISUAL 2-2</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_2-3.png" alt="KEY VISUAL 2-3">
+            <div class="item-caption">
+                <h3>KEY VISUAL 2-3</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_2-4.png" alt="KEY VISUAL 2-4">
+            <div class="item-caption">
+                <h3>KEY VISUAL 2-4</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_3-1.png" alt="KEY VISUAL 3-1">
+            <div class="item-caption">
+                <h3>KEY VISUAL 3-1</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_3-2.png" alt="KEY VISUAL 3-2">
+            <div class="item-caption">
+                <h3>KEY VISUAL 3-2</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_3-3.png" alt="KEY VISUAL 3-3">
+            <div class="item-caption">
+                <h3>KEY VISUAL 3-3</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_3-4.png" alt="KEY VISUAL 3-4">
+            <div class="item-caption">
+                <h3>KEY VISUAL 3-4</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_3-5.png" alt="KEY VISUAL 3-5">
+            <div class="item-caption">
+                <h3>KEY VISUAL 3-5</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_4-1.png" alt="KEY VISUAL 4-1">
+            <div class="item-caption">
+                <h3>KEY VISUAL 4-1</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_4-2.png" alt="KEY VISUAL 4-2">
+            <div class="item-caption">
+                <h3>KEY VISUAL 4-2</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_4-3.png" alt="KEY VISUAL 4-3">
+            <div class="item-caption">
+                <h3>KEY VISUAL 4-3</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_4-4.png" alt="KEY VISUAL 4-4">
+            <div class="item-caption">
+                <h3>KEY VISUAL 4-4</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_4-5.png" alt="KEY VISUAL 4-5">
+            <div class="item-caption">
+                <h3>KEY VISUAL 4-5</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_5-1.png" alt="KEY VISUAL 5-1">
+            <div class="item-caption">
+                <h3>KEY VISUAL 5-1</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_5-2.png" alt="KEY VISUAL 5-2">
+            <div class="item-caption">
+                <h3>KEY VISUAL 5-2</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_5-3.png" alt="KEY VISUAL 5-3">
+            <div class="item-caption">
+                <h3>KEY VISUAL 5-3</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_5-4.png" alt="KEY VISUAL 5-4">
+            <div class="item-caption">
+                <h3>KEY VISUAL 5-4</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_6-1.png" alt="KEY VISUAL 6-1">
+            <div class="item-caption">
+                <h3>KEY VISUAL 6-1</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_6-2.png" alt="KEY VISUAL 6-2">
+            <div class="item-caption">
+                <h3>KEY VISUAL 6-2</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_6-3.png" alt="KEY VISUAL 6-3">
+            <div class="item-caption">
+                <h3>KEY VISUAL 6-3</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_6-4.png" alt="KEY VISUAL 6-4">
+            <div class="item-caption">
+                <h3>KEY VISUAL 6-4</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_7-1.png" alt="KEY VISUAL 7-1">
+            <div class="item-caption">
+                <h3>KEY VISUAL 7-1</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_7-2.png" alt="KEY VISUAL 7-2">
+            <div class="item-caption">
+                <h3>KEY VISUAL 7-2</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_7-3.png" alt="KEY VISUAL 7-3">
+            <div class="item-caption">
+                <h3>KEY VISUAL 7-3</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_7-4.png" alt="KEY VISUAL 7-4">
+            <div class="item-caption">
+                <h3>KEY VISUAL 7-4</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_7-5.png" alt="KEY VISUAL 7-5">
+            <div class="item-caption">
+                <h3>KEY VISUAL 7-5</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_8-1.png" alt="KEY VISUAL 8-1">
+            <div class="item-caption">
+                <h3>KEY VISUAL 8-1</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_8-2.png" alt="KEY VISUAL 8-2">
+            <div class="item-caption">
+                <h3>KEY VISUAL 8-2</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_8-3.png" alt="KEY VISUAL 8-3">
+            <div class="item-caption">
+                <h3>KEY VISUAL 8-3</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_8-4.png" alt="KEY VISUAL 8-4">
+            <div class="item-caption">
+                <h3>KEY VISUAL 8-4</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_8-5.png" alt="KEY VISUAL 8-5">
+            <div class="item-caption">
+                <h3>KEY VISUAL 8-5</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_8-6.png" alt="KEY VISUAL 8-6">
+            <div class="item-caption">
+                <h3>KEY VISUAL 8-6</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_8-7.png" alt="KEY VISUAL 8-7">
+            <div class="item-caption">
+                <h3>KEY VISUAL 8-7</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_8-8.png" alt="KEY VISUAL 8-8">
+            <div class="item-caption">
+                <h3>KEY VISUAL 8-8</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_9.png" alt="KEY VISUAL 9">
+            <div class="item-caption">
+                <h3>KEY VISUAL 9</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_10.png" alt="KEY VISUAL 10">
+            <div class="item-caption">
+                <h3>KEY VISUAL 10</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_11-1.png" alt="KEY VISUAL 11-1">
+            <div class="item-caption">
+                <h3>KEY VISUAL 11-1</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_11-2.png" alt="KEY VISUAL 11-2">
+            <div class="item-caption">
+                <h3>KEY VISUAL 11-2</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_14-1.png" alt="KEY VISUAL 14-1">
+            <div class="item-caption">
+                <h3>KEY VISUAL 14-1</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_14-2.png" alt="KEY VISUAL 14-2">
+            <div class="item-caption">
+                <h3>KEY VISUAL 14-2</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_14-3.png" alt="KEY VISUAL 14-3">
+            <div class="item-caption">
+                <h3>KEY VISUAL 14-3</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_14-5.png" alt="KEY VISUAL 14-5">
+            <div class="item-caption">
+                <h3>KEY VISUAL 14-5</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_14-6.png" alt="KEY VISUAL 14-6">
+            <div class="item-caption">
+                <h3>KEY VISUAL 14-6</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_14-7.png" alt="KEY VISUAL 14-7">
+            <div class="item-caption">
+                <h3>KEY VISUAL 14-7</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_16-1.png" alt="KEY VISUAL 16-1">
+            <div class="item-caption">
+                <h3>KEY VISUAL 16-1</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_16-2.png" alt="KEY VISUAL 16-2">
+            <div class="item-caption">
+                <h3>KEY VISUAL 16-2</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_16-4.png" alt="KEY VISUAL 16-4">
+            <div class="item-caption">
+                <h3>KEY VISUAL 16-4</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_16-5.png" alt="KEY VISUAL 16-5">
+            <div class="item-caption">
+                <h3>KEY VISUAL 16-5</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_16-6.png" alt="KEY VISUAL 16-6">
+            <div class="item-caption">
+                <h3>KEY VISUAL 16-6</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_16-7.png" alt="KEY VISUAL 16-7">
+            <div class="item-caption">
+                <h3>KEY VISUAL 16-7</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_18-1.png" alt="KEY VISUAL 18-1">
+            <div class="item-caption">
+                <h3>KEY VISUAL 18-1</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_18-2.png" alt="KEY VISUAL 18-2">
+            <div class="item-caption">
+                <h3>KEY VISUAL 18-2</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_18-3.png" alt="KEY VISUAL 18-3">
+            <div class="item-caption">
+                <h3>KEY VISUAL 18-3</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="./images/作品集_18-4.png" alt="KEY VISUAL 18-4">
+            <div class="item-caption">
+                <h3>KEY VISUAL 18-4</h3>
+                <p>Digital Art Series</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+const items = document.querySelectorAll('.item');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { 
+    threshold: 0.05,
+    rootMargin: '0px 0px -50px 0px'
+});
+items.forEach(item => observer.observe(item));
+</script>
+
+</body>
+</html>
