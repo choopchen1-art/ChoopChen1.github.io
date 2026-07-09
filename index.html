@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" href="./images/头像1.png">
     <link rel="stylesheet" href="cursor-style.css">
     <style>
-        /* ===== 更换为 Verdana 字体 ===== */
+        /* ===== 字体 ===== */
         @font-face {
             font-family: 'MyMenuFont';
             src: url('./fonts/Verdana.ttf') format('truetype');
@@ -48,8 +48,7 @@
             opacity:1;
         }
 
-        /* ----- 菜单栏基础样式（已应用 Verdana） ----- */
-        nav{
+        nav {
             position:fixed; 
             top:12px; 
             left:12px; 
@@ -60,11 +59,9 @@
             transition: color 0.3s ease;
             font-family: 'MyMenuFont', Verdana, sans-serif;
         }
-        /* 所有文字继承父级颜色，且链接不显示默认蓝色 */
         nav * {
             color: inherit;
         }
-        /* 特别针对链接的各个状态，强制继承 */
         nav a,
         nav a:link,
         nav a:visited,
@@ -72,7 +69,7 @@
         nav a:active {
             color: inherit !important; 
         }
-        .logo{
+        .logo {
             font-size:10px; 
             font-weight:400; 
             line-height:0.8; 
@@ -85,7 +82,7 @@
             line-height:0.8; 
             transition: all 0.4s cubic-bezier(0.19,1,0.22,1);
         }
-        .menu a:hover{
+        .menu a:hover {
             transform: translateX(4px); 
             opacity:0.7;
         }
@@ -100,12 +97,39 @@
             gap: 2px;
         }
 
-        /* ----- 明暗模式：通过 nav 自身的 color 控制所有文字 ----- */
-        nav.menu-light {
-            color: #000;
+        nav.menu-light { color: #000; }
+        nav.menu-dark { color: #fff; }
+
+        /* 加载提示 */
+        #loadingIndicator {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            color: rgba(255,255,255,0.3);
+            font-size: 11px;
+            letter-spacing: 2px;
+            font-family: 'MyMenuFont', Verdana, sans-serif;
+            pointer-events: none;
+            transition: opacity 0.6s ease;
+            opacity: 0;
         }
-        nav.menu-dark {
-            color: #fff;
+        #loadingIndicator.visible { opacity: 1; }
+
+        /* 错误提示（当所有图片加载失败时显示） */
+        #errorMsg {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255,255,255,0.2);
+            font-size: 14px;
+            font-family: 'MyMenuFont', Verdana, sans-serif;
+            text-align: center;
+            pointer-events: none;
+            display: none;
+            z-index: 999;
         }
     </style>
 </head>
@@ -113,10 +137,12 @@
 <div class="cursor"></div><div class="cursor-trail"></div>
 <script src="cursor-script.js"></script>
 
-<!-- 背景轮播容器 -->
 <div class="carousel-bg" id="carouselBg">
     <img id="bgSlider" src="" alt="background">
 </div>
+
+<div id="loadingIndicator" class="visible">加载中…</div>
+<div id="errorMsg">⚠️ 图片加载失败，请检查路径</div>
 
 <nav id="mainNav">
     <div class="logo">DESIGN BY © CHOOPCHEN Ltd.</div>
@@ -132,75 +158,45 @@
 
 <script>
 (function() {
-    // ---------- 所有本地图片路径 ----------
-    const imageList = [
-        "./images/作品集_1-1.png",
-        "./images/作品集_1-2.png",
-        "./images/作品集_1-3.png",
-        "./images/作品集_1-4.png",
-        "./images/作品集_1-5.png",
-        "./images/作品集_2-1-1.png",
-        "./images/作品集_2-1.png",
-        "./images/作品集_2-2.png",
-        "./images/作品集_2-3.png",
-        "./images/作品集_2-4.png",
-        "./images/作品集_3-1.png",
-        "./images/作品集_3-2.png",
-        "./images/作品集_3-3.png",
-        "./images/作品集_3-4.png",
-        "./images/作品集_3-5.png",
-        "./images/作品集_4-1.png",
-        "./images/作品集_4-2.png",
-        "./images/作品集_4-3.png",
-        "./images/作品集_4-4.png",
-        "./images/作品集_4-5.png",
-        "./images/作品集_5-1.png",
-        "./images/作品集_5-2.png",
-        "./images/作品集_6-1.png",
-        "./images/作品集_6-2.png",
-        "./images/作品集_6-3.png",
-        "./images/作品集_6-4.png",
-        "./images/作品集_7-1.png",
-        "./images/作品集_7-2.png",
-        "./images/作品集_7-3.png",
-        "./images/作品集_7-4.png",
-        "./images/作品集_7-5.png",
-        "./images/作品集_8-1.png",
-        "./images/作品集_8-2.png",
-        "./images/作品集_8-3.png",
-        "./images/作品集_8-4.png",
-        "./images/作品集_8-5.png",
-        "./images/作品集_8-6.png",
-        "./images/作品集_8-7.png",
-        "./images/作品集_8-8.png",
-        "./images/作品集_9.png",
-        "./images/作品集_10.png",
-        "./images/作品集_11-1.png",
-        "./images/作品集_11-2.png",
-        "./images/作品集_14-1.png",
-        "./images/作品集_14-2.png",
-        "./images/作品集_14-3.png",
-        "./images/作品集_14-5.png",
-        "./images/作品集_14-6.png",
-        "./images/作品集_14-7.png",
-        "./images/作品集_16-1.png",
-        "./images/作品集_16-2.png",
-        "./images/作品集_16-4.png",
-        "./images/作品集_16-5.png",
-        "./images/作品集_16-6.png",
-        "./images/作品集_16-7.png",
-        "./images/作品集_18-1.png",
-        "./images/作品集_18-2.png",
-        "./images/作品集_18-3.png",
-        "./images/作品集_18-4.png"
-    ];
+    'use strict';
 
+    // ---------- 配置 ----------
+    const TOTAL_IMAGES = 48;
+    const SWITCH_INTERVAL = 5000;
+    const TRANSITION_DURATION = 1200;
+    const IMAGE_PATH_PREFIX = './images2/文件';
+    const IMAGE_PATH_SUFFIX = '.jpg';
+
+    // ---------- DOM ----------
     const bgImg = document.getElementById('bgSlider');
     const nav = document.getElementById('mainNav');
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    const errorMsg = document.getElementById('errorMsg');
+
+    // ---------- 状态 ----------
     let currentIndex = 0;
     let isTransitioning = false;
+    let timerId = null;
+    let isFirstImageShown = false;   // 是否已显示第一张图片
 
-    // ---------- 计算图片平均亮度 ----------
+    // 图片缓存：{ index: { img, brightness } }
+    const imageCache = {};
+
+    // ---------- 生成随机路径列表 ----------
+    function generateShuffledImageList() {
+        const list = [];
+        for (let i = 1; i <= TOTAL_IMAGES; i++) {
+            list.push(IMAGE_PATH_PREFIX + i + IMAGE_PATH_SUFFIX);
+        }
+        for (let i = list.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [list[i], list[j]] = [list[j], list[i]];
+        }
+        return list;
+    }
+    const imageList = generateShuffledImageList();
+
+    // ---------- 工具：计算亮度 ----------
     function getImageBrightness(img) {
         const canvas = document.createElement('canvas');
         const scale = 50;
@@ -218,7 +214,7 @@
         return sum / (data.length / 4);
     }
 
-    // ---------- 根据亮度更新菜单颜色 ----------
+    // ---------- 更新菜单颜色 ----------
     function updateMenuColor(brightness) {
         if (brightness > 128) {
             nav.classList.remove('menu-dark');
@@ -229,43 +225,156 @@
         }
     }
 
-    // ---------- 切换背景图 ----------
+    // ---------- 加载单张图片（返回 Promise<{img, brightness} | null>） ----------
+    function loadImage(index) {
+        return new Promise((resolve) => {
+            // 如果已缓存且成功，直接返回
+            if (imageCache[index] && imageCache[index].img) {
+                resolve(imageCache[index]);
+                return;
+            }
+
+            const src = imageList[index];
+            const img = new Image();
+            img.onload = function() {
+                const brightness = getImageBrightness(img);
+                const cached = { img, brightness };
+                imageCache[index] = cached;
+                resolve(cached);
+            };
+            img.onerror = function() {
+                console.warn('图片加载失败:', src);
+                imageCache[index] = null;  // 标记失败
+                resolve(null);
+            };
+            img.src = src;
+        });
+    }
+
+    // ---------- 尝试显示指定索引（需已加载） ----------
+    function showImage(index) {
+        const cached = imageCache[index];
+        if (!cached || !cached.img) {
+            console.warn('试图显示未加载的图片:', index);
+            return false;
+        }
+
+        bgImg.src = cached.img.src;
+        updateMenuColor(cached.brightness);
+        bgImg.classList.add('active');
+
+        if (!isFirstImageShown) {
+            isFirstImageShown = true;
+            loadingIndicator.classList.remove('visible');
+        }
+        return true;
+    }
+
+    // ---------- 核心：初始化（确保至少一张图片成功加载） ----------
+    async function init() {
+        // 尝试从第一张开始，依次加载，直到成功
+        let successIndex = -1;
+        for (let i = 0; i < imageList.length; i++) {
+            const result = await loadImage(i);
+            if (result) {
+                successIndex = i;
+                break;
+            }
+        }
+
+        if (successIndex === -1) {
+            // 所有图片加载失败
+            errorMsg.style.display = 'block';
+            loadingIndicator.classList.remove('visible');
+            console.error('所有图片加载失败，请检查路径或网络');
+            return;
+        }
+
+        // 显示成功加载的图片
+        currentIndex = successIndex;
+        showImage(currentIndex);
+
+        // 预加载后续几张（非阻塞）
+        for (let i = 1; i <= 3; i++) {
+            const nextIdx = (currentIndex + i) % imageList.length;
+            if (!imageCache[nextIdx]) {
+                loadImage(nextIdx).catch(() => {});
+            }
+        }
+
+        // 启动轮播
+        timerId = setInterval(nextImage, SWITCH_INTERVAL);
+    }
+
+    // ---------- 切换到下一张 ----------
     function nextImage() {
         if (isTransitioning) return;
-        isTransitioning = true;
 
+        // 寻找下一张可用的图片（跳过加载失败的）
+        let nextIdx = (currentIndex + 1) % imageList.length;
+        let attempts = 0;
+        // 最多尝试全部图片，避免死循环
+        while (attempts < imageList.length) {
+            // 如果已缓存且成功，则使用
+            if (imageCache[nextIdx] && imageCache[nextIdx].img) {
+                break;
+            }
+            // 否则尝试加载（异步，但不等待，直接跳过该张，继续找下一张）
+            // 但为了不阻塞，我们跳过，并在后台加载
+            if (!imageCache[nextIdx]) {
+                loadImage(nextIdx).catch(() => {}); // 静默加载
+            }
+            nextIdx = (nextIdx + 1) % imageList.length;
+            attempts++;
+        }
+
+        // 如果找到了可用的图片，切换
+        if (attempts < imageList.length && imageCache[nextIdx] && imageCache[nextIdx].img) {
+            doSwitch(nextIdx);
+        } else {
+            // 没有可用图片，可能是所有图片都加载失败，此时什么都不做
+            console.warn('没有可用的下一张图片');
+        }
+    }
+
+    // 执行切换
+    function doSwitch(newIndex) {
+        if (isTransitioning || newIndex === currentIndex) return;
+
+        isTransitioning = true;
         bgImg.classList.remove('active');
 
         setTimeout(() => {
-            currentIndex = (currentIndex + 1) % imageList.length;
-            bgImg.src = imageList[currentIndex];
-            bgImg.classList.add('active');
-
-            bgImg.onload = function() {
-                const brightness = getImageBrightness(bgImg);
-                updateMenuColor(brightness);
-            };
-            if (bgImg.complete) {
-                bgImg.onload && bgImg.onload();
-            }
-
+            currentIndex = newIndex;
+            showImage(currentIndex);
             isTransitioning = false;
-        }, 1200);
+
+            // 预加载后续几张
+            for (let i = 1; i <= 2; i++) {
+                const nextIdx = (currentIndex + i) % imageList.length;
+                if (!imageCache[nextIdx]) {
+                    loadImage(nextIdx).catch(() => {});
+                }
+            }
+        }, TRANSITION_DURATION);
     }
 
-    // ---------- 初始化 ----------
-    bgImg.src = imageList[0];
-    bgImg.onload = function() {
-        const brightness = getImageBrightness(bgImg);
-        updateMenuColor(brightness);
-        bgImg.classList.add('active');
-    };
-    if (bgImg.complete) {
-        bgImg.onload && bgImg.onload();
-    }
+    // ---------- 页面可见性 ----------
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            if (timerId) {
+                clearInterval(timerId);
+                timerId = null;
+            }
+        } else {
+            if (!timerId && isFirstImageShown) {
+                timerId = setInterval(nextImage, SWITCH_INTERVAL);
+            }
+        }
+    });
 
-    // ===== 轮播间隔从 4000ms（4秒）改为 5000ms（5秒） =====
-    setInterval(nextImage, 5000);
+    // ---------- 启动 ----------
+    init();
 })();
 </script>
 </body>
