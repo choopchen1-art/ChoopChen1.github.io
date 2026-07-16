@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CC__Home</title>
+    <!-- 网站图标 -->
     <link rel="icon" type="image/png" href="./images/头像1.png">
     <link rel="stylesheet" href="cursor-style.css">
     <style>
+        /* ===== 更换为 Verdana 字体 ===== */
         @font-face {
             font-family: 'MyMenuFont';
             src: url('./fonts/Verdana.ttf') format('truetype');
@@ -16,92 +18,76 @@
         }
 
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            margin:0; padding:0; box-sizing:border-box;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeLegibility;
         }
-
         body {
             font-family: "MyMenuFont", "PingFang SC", "Microsoft YaHei", sans-serif;
-            color: #e0e0e0;
-            line-height: 1;
-            letter-spacing: 0.3px;
+            color:#e0e0e0;
+            line-height:1;
+            letter-spacing:0.3px;
+            overflow:hidden;
             font-smooth: always;
-            background: #000;
-
-            /* 开启滚动，并增加可滚动空间（用于轻微滚动） */
-            overflow-y: auto;
-            min-height: 100vh;
-            padding-bottom: 30vh;   /* 提供可滚动余量 */
-            scroll-behavior: smooth;
+            background:#000;
         }
-
-        /* 背景容器：固定定位，不随滚动移动 */
         .carousel-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            background: #000;
+            position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:-1;
+            background:#000;
         }
         .carousel-bg img {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            position:absolute; 
+            width:100%; 
+            height:100%; 
+            object-fit:cover; 
             transition: opacity 1.2s ease-in-out;
-            opacity: 0;
+            opacity:0;
         }
         .carousel-bg img.active {
-            opacity: 1;
+            opacity:1;
         }
 
-        /* 菜单：相对定位，随文档流滚动，保持左上边距 */
-        nav {
-            position: relative;
-            top: auto;
-            left: auto;
-            margin-top: 12px;
-            margin-left: 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
+        /* ----- 菜单栏基础样式（已应用 Verdana） ----- */
+        nav{
+            position:fixed; 
+            top:12px; 
+            left:12px; 
+            z-index:999; 
+            display:flex; 
+            flex-direction:column; 
+            gap:4px; 
             transition: color 0.3s ease;
             font-family: 'MyMenuFont', Verdana, sans-serif;
-            z-index: 999;
         }
+        /* 所有文字继承父级颜色，且链接不显示默认蓝色 */
         nav * {
             color: inherit;
         }
+        /* 特别针对链接的各个状态，强制继承 */
         nav a,
         nav a:link,
         nav a:visited,
         nav a:hover,
         nav a:active {
-            color: inherit !important;
+            color: inherit !important; 
         }
-        .logo {
-            font-size: 10px;
-            font-weight: 400;
-            line-height: 0.8;
+        .logo{
+            font-size:10px; 
+            font-weight:400; 
+            line-height:0.8; 
         }
-        .menu a,
-        .menu span {
-            display: inline-block;
-            text-decoration: none;
-            font-size: 10px;
-            font-weight: 400;
-            line-height: 0.8;
-            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        .menu a, .menu span {
+            display:inline-block; 
+            text-decoration:none; 
+            font-size:10px; 
+            font-weight:400; 
+            line-height:0.8; 
+            transition: all 0.4s cubic-bezier(0.19,1,0.22,1);
         }
-        .menu a:hover {
-            transform: translateX(4px);
-            opacity: 0.7;
+        .menu a:hover{
+            transform: translateX(4px); 
+            opacity:0.7;
         }
         .menu {
             display: flex;
@@ -114,174 +100,126 @@
             gap: 2px;
         }
 
+        /* ----- 明暗模式：通过 nav 自身的 color 控制所有文字 ----- */
         nav.menu-light {
             color: #000;
         }
         nav.menu-dark {
             color: #fff;
         }
-
-        /* ===== 左下角加载指示器 ===== */
-        #page-loader {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            z-index: 9999;
-            opacity: 1;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
-            visibility: visible;
-        }
-        #page-loader.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-        .loader-spinner {
-            width: 28px;
-            height: 28px;
-            border: 3px solid rgba(255, 255, 255, 0.15);
-            border-top: 3px solid #ffffff;
-            border-radius: 50%;
-            animation: spin 0.9s linear infinite;
-            box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* 隐藏滚动条（保持视觉整洁） */
-        ::-webkit-scrollbar {
-            width: 0px;
-            background: transparent;
-        }
-        html {
-            scrollbar-width: none;
-        }
     </style>
 </head>
 <body>
+<div class="cursor"></div><div class="cursor-trail"></div>
+<script src="cursor-script.js"></script>
 
-    <!-- 自定义光标 -->
-    <div class="cursor"></div>
-    <div class="cursor-trail"></div>
-    <script src="cursor-script.js"></script>
+<!-- 背景轮播容器 -->
+<div class="carousel-bg" id="carouselBg">
+    <img id="bgSlider" src="" alt="background">
+</div>
 
-    <!-- 加载指示器 -->
-    <div id="page-loader">
-        <div class="loader-spinner"></div>
-    </div>
-
-    <!-- 背景轮播（固定） -->
-    <div class="carousel-bg" id="carouselBg">
-        <img id="bgSlider" src="" alt="background">
-    </div>
-
-    <!-- 菜单（滚动） -->
-    <nav id="mainNav">
-        <div class="logo">DESIGN BY © CHOOPCHEN Ltd.</div>
-        <div class="menu">
-            <a href="index.html">CC__Home</a>
-            <div class="link-group">
-                <a href="works.html">CC__Works</a><span>__</span><a href="photographs.html">Photographs</a>
-            </div>
-            <a href="about.html">CC__Information</a>
-            <a href="contact.html">CC__Contact</a>
+<nav id="mainNav">
+    <div class="logo">DESIGN BY © CHOOPCHEN Ltd.</div>
+    <div class="menu">
+        <a href="index.html">CC__Home</a>
+        <div class="link-group">
+            <a href="works.html">CC__Works</a><span>__</span><a href="photographs.html">Photographs</a>
         </div>
-    </nav>
+        <a href="about.html">CC__Information</a>
+        <a href="contact.html">CC__Contact</a>
+    </div>
+</nav>
 
-    <script>
-        (function() {
-            // 生成 48 张图片路径并随机打乱
-            function generateImageList() {
-                const list = [];
-                for (let i = 1; i <= 48; i++) {
-                    list.push(`./images2/文件${i}.jpg`);
-                }
-                for (let i = list.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [list[i], list[j]] = [list[j], list[i]];
-                }
-                return list;
-            }
+<script>
+(function() {
+    // ---------- 生成 images2 文件夹中的 48 张图片（文件1.jpg ~ 文件48.jpg）并随机打乱 ----------
+    function generateImageList() {
+        const list = [];
+        for (let i = 1; i <= 48; i++) {
+            list.push(`./images2/文件${i}.jpg`);
+        }
+        // Fisher-Yates 洗牌算法 - 随机打乱
+        for (let i = list.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [list[i], list[j]] = [list[j], list[i]];
+        }
+        return list;
+    }
 
-            const imageList = generateImageList();
+    const imageList = generateImageList();
 
-            const bgImg = document.getElementById('bgSlider');
-            const nav = document.getElementById('mainNav');
-            let currentIndex = 0;
-            let isTransitioning = false;
+    const bgImg = document.getElementById('bgSlider');
+    const nav = document.getElementById('mainNav');
+    let currentIndex = 0;
+    let isTransitioning = false;
 
-            function getImageBrightness(img) {
-                const canvas = document.createElement('canvas');
-                const scale = 50;
-                canvas.width = scale;
-                canvas.height = scale;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0, scale, scale);
-                const imageData = ctx.getImageData(0, 0, scale, scale);
-                const data = imageData.data;
-                let sum = 0;
-                for (let i = 0; i < data.length; i += 4) {
-                    const r = data[i], g = data[i+1], b = data[i+2];
-                    sum += (r + g + b) / 3;
-                }
-                return sum / (data.length / 4);
-            }
+    // ---------- 计算图片平均亮度 ----------
+    function getImageBrightness(img) {
+        const canvas = document.createElement('canvas');
+        const scale = 50;
+        canvas.width = scale;
+        canvas.height = scale;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, scale, scale);
+        const imageData = ctx.getImageData(0, 0, scale, scale);
+        const data = imageData.data;
+        let sum = 0;
+        for (let i = 0; i < data.length; i += 4) {
+            const r = data[i], g = data[i+1], b = data[i+2];
+            sum += (r + g + b) / 3;
+        }
+        return sum / (data.length / 4);
+    }
 
-            function updateMenuColor(brightness) {
-                if (brightness > 128) {
-                    nav.classList.remove('menu-dark');
-                    nav.classList.add('menu-light');
-                } else {
-                    nav.classList.remove('menu-light');
-                    nav.classList.add('menu-dark');
-                }
-            }
+    // ---------- 根据亮度更新菜单颜色 ----------
+    function updateMenuColor(brightness) {
+        if (brightness > 128) {
+            nav.classList.remove('menu-dark');
+            nav.classList.add('menu-light');
+        } else {
+            nav.classList.remove('menu-light');
+            nav.classList.add('menu-dark');
+        }
+    }
 
-            function nextImage() {
-                if (isTransitioning) return;
-                isTransitioning = true;
+    // ---------- 切换背景图 ----------
+    function nextImage() {
+        if (isTransitioning) return;
+        isTransitioning = true;
 
-                bgImg.classList.remove('active');
+        bgImg.classList.remove('active');
 
-                setTimeout(() => {
-                    currentIndex = (currentIndex + 1) % imageList.length;
-                    bgImg.src = imageList[currentIndex];
-                    bgImg.classList.add('active');
+        setTimeout(() => {
+            currentIndex = (currentIndex + 1) % imageList.length;
+            bgImg.src = imageList[currentIndex];
+            bgImg.classList.add('active');
 
-                    bgImg.onload = function() {
-                        const brightness = getImageBrightness(bgImg);
-                        updateMenuColor(brightness);
-                    };
-                    if (bgImg.complete) {
-                        bgImg.onload && bgImg.onload();
-                    }
-
-                    isTransitioning = false;
-                }, 1200);
-            }
-
-            // 初始化
-            bgImg.src = imageList[0];
             bgImg.onload = function() {
                 const brightness = getImageBrightness(bgImg);
                 updateMenuColor(brightness);
-                bgImg.classList.add('active');
             };
             if (bgImg.complete) {
                 bgImg.onload && bgImg.onload();
             }
 
-            setInterval(nextImage, 5000);
-        })();
+            isTransitioning = false;
+        }, 1200);
+    }
 
-        // 加载完成后隐藏指示器
-        window.addEventListener('load', function() {
-            const loader = document.getElementById('page-loader');
-            if (loader) {
-                loader.classList.add('hidden');
-            }
-        });
-    </script>
+    // ---------- 初始化 ----------
+    bgImg.src = imageList[0];
+    bgImg.onload = function() {
+        const brightness = getImageBrightness(bgImg);
+        updateMenuColor(brightness);
+        bgImg.classList.add('active');
+    };
+    if (bgImg.complete) {
+        bgImg.onload && bgImg.onload();
+    }
+
+    // ===== 轮播间隔改为 5000ms（5秒） =====
+    setInterval(nextImage, 5000);
+})();
+</script>
 </body>
 </html>
