@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Information | DESIGN BY © CHOOPCHEN Ltd.</title>
-    <!-- ===== 添加网站图标 ===== -->
     <link rel="icon" type="image/png" href="./images/头像1.png">
     <link rel="stylesheet" href="cursor-style.css">
     <style>
-        /* ===== 添加本地字体声明 ===== */
         @font-face {
             font-family: 'MyMenuFont';
             src: url('./fonts/Verdana.ttf') format('truetype');
@@ -16,98 +14,150 @@
             font-style: normal;
             font-display: swap;
         }
-
-        * { 
+        * {
             margin:0; padding:0; box-sizing:border-box;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeLegibility;
         }
-        body { 
-            font-family: "MyMenuFont", "PingFang SC", "Microsoft YaHei", sans-serif; 
-            color:#000; 
+        body {
+            font-family: "MyMenuFont", "PingFang SC", "Microsoft YaHei", sans-serif;
+            color:#000;
             line-height:1;
-            letter-spacing:0.3px; 
-            overflow-x:hidden; 
+            letter-spacing:0.4px;
+            overflow-x:hidden;
             background:#fff;
             position: relative;
         }
-
-        .carousel-bg { 
-            position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:-1; 
+        .carousel-bg {
+            position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:-1;
             background:#fff;
         }
-
+        /* 导航栏 统一自适应参数 */
         nav{
             position:absolute;
-            top:12px; 
-            left:12px; 
-            z-index:999; 
-            display:flex; 
-            flex-direction:column; 
-            gap:4px;
+            top: clamp(6px, 1.2vh, 12px);
+            left: clamp(6px, 1.2vh, 12px);
+            z-index:999;
+            display:flex;
+            flex-direction:column;
+            gap: clamp(2px, 0.4vh, 4px);
             font-family: 'MyMenuFont', Verdana, sans-serif;
         }
         .logo{
-            font-size:10px;
-            font-weight:400; 
+            font-size: clamp(7px, 1.4vh, 18px);
+            font-weight: 500;
             color:#000;
-            line-height:0.8; 
-            transition:0.3s;
+            line-height:0.8;
             margin-bottom: 0;
         }
         .menu a, .menu span {
-            display:inline-block; 
-            text-decoration:none; 
+            font-size: clamp(7px, 1.4vh, 18px);
+            font-weight: 500;
+            display:inline-block;
+            text-decoration:none;
             color:#000;
-            font-size:10px;
-            font-weight:400; 
-            line-height:0.8; 
+            line-height:0.8;
             transition: all 0.4s cubic-bezier(0.19,1,0.22,1);
         }
         .menu a:hover{
-            transform: translateX(4px); 
+            transform: translateX(clamp(2px, 0.4vh, 4px));
             opacity:0.7;
-            font-weight:400;
         }
-        .link-group { 
+        .link-group {
             display:flex;
             align-items:center;
-            gap:2px;
+            gap: clamp(1px, 0.2vh, 2px);
         }
         .menu {
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: clamp(1px, 0.2vh, 2px);
         }
-
+        /* 外层容器统一边距 */
         .section{
-            max-width:800px; margin:0 auto; padding:120px 20px 40px; position:relative; z-index:1;
-            text-align:center;
+            max-width: 100%;
+            margin:0;
+            padding: clamp(80px, 12vh, 120px) clamp(6px, 1.2vh, 12px) 40px;
+            position:relative;
+            z-index:1;
+            text-align:left;
         }
-        .title{
-            text-align:center; 
-            font-size:12px;
-            font-weight:400;
-            margin-bottom:60px; 
-            color:#000;
-            letter-spacing:0.3px;
-            line-height:1;
+        /* 横屏左右分栏布局 */
+        @media (min-width: 1000px) and (orientation: landscape) {
+            .two-column-wrap {
+                display: flex;
+                align-items: flex-start; /* 左右区块顶端对齐 */
+                gap: 6vw; /* 缩小间距，右侧内容往左靠 */
+            }
+            /* 左侧：服务、地址 */
+            .fixed-block {
+                width: 30%;
+                flex-shrink: 0;
+            }
+            /* 右侧主体，无偏移 */
+            .center-wrap {
+                width: 58%;
+                position: static;
+                transform: none;
+                left: auto;
+            }
         }
-        .content{
-            color:#000;
-            font-size:12px;
-            line-height:1.8;
-            max-width:500px;
-            margin:0 auto;
+        /* 竖屏/窄屏上下堆叠 */
+        @media (max-width: 999px), (orientation: portrait) {
+            .two-column-wrap {
+                display: block;
+            }
+            .fixed-block,
+            .center-wrap {
+                width: 100%;
+            }
+        }
+        /* 全局文字统一字号字重 */
+        .block-title,
+        .text-normal,
+        .text-list,
+        .text-footer {
+            font-size: clamp(7px, 1.4vh, 18px);
+            font-weight: 500;
+            color: #000;
+        }
+        .block-title{
+            margin: clamp(30px, 3.5vh, 50px) 0 clamp(10px, 1.2vh, 16px);
+        }
+        /* 第一块标题取消上边距，实现左右顶端对齐 */
+        .fixed-block .block-title:first-child,
+        .center-wrap .block-title:first-child {
+            margin-top: 0;
+        }
+        .text-normal{
+            line-height: 1.75;
+            max-width:720px;
+        }
+        .text-list{
+            line-height: 1.65;
+            max-width:780px;
+        }
+        .text-footer{
+            line-height: 1.8;
+            margin-top: clamp(40px, 5vh, 60px);
+        }
+        /* 分隔线通用样式 */
+        .divider{
+            width: 100%;
+            height: 1px;
+            background: #cccccc;
+            margin: clamp(20px, 2.5vh, 32px) 0;
+        }
+        /* 左侧区块移除底部分隔线 */
+        .fixed-block .divider {
+            display: none;
         }
     </style>
 </head>
 <body>
-
 <div class="cursor"></div><div class="cursor-trail"></div>
 <script src="cursor-script.js"></script>
-
 <nav>
     <div class="logo">DESIGN BY © CHOOPCHEN Ltd.</div>
     <div class="menu">
@@ -117,17 +167,128 @@
         </div>
         <a href="about.html">CC__Information</a>
         <a href="contact.html">CC__Contact</a>
-    </div>
-</nav>
-
+    </nav>
 <section class="section">
-    <h2 class="title">Information</h2>
-    <div class="content">
-        DESIGN BY © CHOOPCHEN Ltd.<br><br>
-        Visual Design / Creative Direction / Digital Art<br><br>
-        Everything is designed.
+    <div class="two-column-wrap">
+        <!-- 左侧：服务项目、工作室地址，无底部分隔线 -->
+        <div class="fixed-block">
+            <h3 class="block-title">服务项目</h3>
+            <div class="text-normal">
+                艺术指导、视觉识别、宣传活动、标牌、包装、书籍设计
+            </div>
+            <div class="divider"></div>
+            <h3 class="block-title">工作室地址</h3>
+            <div class="text-normal">
+                台北市 松山区<br>
+                富进街
+            </div>
+            <div class="divider"></div>
+        </div>
+
+        <!-- 右侧主体内容 -->
+        <div class="center-wrap">
+            <h3 class="block-title">工作室介绍</h3>
+            <div class="text-normal">
+                陈乔普设计事务所是一家位于台北的独立设计工作室，由陈乔普和许宇文于1997年创立。工作室的业务涵盖文化和商业领域，为艺术、建筑和摄影等行业的客户打造视觉形象、书籍设计和品牌形象。除了本地客户外，工作室还与日本、英国、中国大陆和香港的客户合作。
+                <br><br>
+                作为工作室的联合创始人兼艺术总监，陈乔普自2000年以来，因其将字体设计融入平面设计的创新方法而备受赞誉，对华语世界当代书籍设计的发展产生了深远的影响。他通过 INSIGHT * 1和 SOURCE * 2两个出版品牌，率先在台湾出版了横尾忠则、中平卓马、荒木经惟和川久保玲（COMME des GARÇONS）等设计师的作品，首次系统地将他们的作品呈现给台湾读者，极大地丰富了台湾本土的创意话语。
+                <br><br>
+                他的作品获得了国际认可，包括 D&AD 木铅笔奖、ADC 银立方奖，并入选 TDC 年鉴和东京 TDC 奖提名作品。自 2015 年起，他成为国际平面设计联盟 (AGI) 的成员。2016 年，他出版了专著《陈乔普设计网：书籍设计精选，2001–2016》。2022 年，他担任英国 D&AD 奖字体设计类别的评委。次年，他的作品参加了由21_21 DESIGN SIGHT在东京策划的展览“模式与特征：平面设计的诗学”。
+                <br><br>
+                注*1*2：出版商INSIGHT和SOURCE向台湾介绍了以下个人的作品：Akira Suei、Derek Jarman、Dieter Rams、Eikoh Hosoe、Hirokazu Koreeda、Kashiwa Sato、Kenya Hara、Kishin Shinoyama、Kouga Hirano、Nobuyoshi Araki、Osamu Torinoumi、Otl Aicher、Rei Kawakubo、Shinbo Minami、藤原慎也、大竹慎郎、横尾忠则、佐藤卓、中平琢磨、花森泰司、草间弥生、山本耀司、长岛由里、龟仓佑作等。（按字母顺序排列）
+            </div>
+            <div class="divider"></div>
+            <h3 class="block-title">奖项</h3>
+            <div class="text-list">
+                美国艺术指导俱乐部年度奖：优秀奖，2025年，纽约，美国<br>
+                东京字体导演俱乐部年度奖：优秀作品奖（2项），2025年，日本东京<br>
+                设计与艺术指导奖：木铅笔奖，2023年，英国伦敦<br>
+                美国艺术指导俱乐部年度奖：优秀奖，2023年，纽约，美国<br>
+                东京字体导演俱乐部年度大奖：2023年度奖项提名作品，日本东京<br>
+                金蝴蝶奖：银奖，2023年，台北，台湾<br>
+                2022年东京字体导演俱乐部年度大奖：优秀作品奖，日本东京<br>
+                艺术指导俱乐部年度奖：银立方奖，2021年，美国纽约<br>
+                美国字体指导俱乐部年度奖：2021年度字体排印卓越证书，纽约<br>
+                2021年富山国际海报三年展：入围名单，日本富山<br>
+                2021年东京字体导演俱乐部年度大奖：优秀作品奖（2项），日本东京<br>
+                2020年东京字体导演俱乐部年度大奖：优秀作品奖（3项），日本东京<br>
+                东京字体导演俱乐部年度奖项：奖项提名作品、优秀作品（2项），2019年，日本东京<br>
+                东京字体导演俱乐部年度奖项：奖项提名作品、优秀作品，2018，日本东京<br>
+                2017年东京字体导演俱乐部年度奖：优秀作品奖（3项），日本东京<br>
+                2014年东京字体导演俱乐部年度大奖：优秀作品奖，日本东京<br>
+                坡州图书奖：最佳设计奖，2014年，韩国坡州<br>
+                2013年东京字体导演俱乐部年度奖：优秀作品奖（两项），日本东京<br>
+                2012年东京字体导演俱乐部年度奖：优秀作品奖（两项），日本东京<br>
+                金蝴蝶奖：金奖、银奖，2012年，台北，台湾<br>
+                2009年东京字体导演俱乐部年度奖：优秀作品奖，日本东京<br>
+                香港设计大奖：银奖（2项），铜奖（3项），2009年，中国香港<br>
+                金蝴蝶奖：金奖，2009年，台北，台湾<br>
+                金蝴蝶奖：金奖（2项），2008年，台北，台湾<br>
+                金蝴蝶奖：金奖（2项），2005年，台北，台湾
+            </div>
+            <div class="divider"></div>
+            <h3 class="block-title">精选团体展览</h3>
+            <div class="text-list">
+                第29届华沙国际平面设计展主展，华沙美术学院，恰普斯基宫，2025，华沙，波兰<br>
+                东京TDC 2025，银座平面画廊，2025年，东京，日本<br>
+                模式与角色：平面设计的诗学，21_21 DESIGN SIGHT，2023，东京，日本<br>
+                2023年杭州东京旅游发展中心，中国杭州<br>
+                荷兰布雷达大教堂印刷砖石宫殿，2023年<br>
+                2023年东京TDC，银座平面画廊，2023年，东京，日本<br>
+                Typomania 2021，当代艺术字体中心，2021年，俄罗斯克拉斯诺达尔<br>
+                旋转的东亚系列 I：手中的指南针，CHAT 美术馆，2021 年，香港，中国<br>
+                第十三届富山国际海报三年展，富山县立美术馆，2021年，日本富山<br>
+                2021年字体狂热展，莫斯科博物馆，2021年，莫斯科，俄罗斯<br>
+                阿那亚海报节，阿那亚，2020，秦皇岛，中国<br>
+                2019年东京TDC，银座平面画廊，2019年，日本东京<br>
+                2019年英国伯明翰伯明翰设计节，市场大厅<br>
+                “创始人形象”海报展，雷星鸿艺术中心，2019年，北京，中国<br>
+                2018年东京TDC，银座平面画廊，2018年，日本东京<br>
+                和平旗帜，实验室，2018，阿姆斯特丹，荷兰；Monotype Type Pro，不仅仅是图书馆，2016，台北，台湾<br>
+                系统 14 - BRAUN 黑胶唱片档案（重新构想），Walter Knoll，2014，北京，中国<br>
+                Typojanchi - 国际字体双年展，首尔书法艺术博物馆，2011年，韩国首尔
+            </div>
+            <div class="divider"></div>
+            <h3 class="block-title">精选出版物</h3>
+            <div class="text-list">
+                It's Nice That：2026 年值得收藏的平面设计趋势，2026 年，伦敦，英国<br>
+                +81杂志第96期：书籍设计与出版的未来特刊，Plus81株式会社，2025年，东京，日本<br>
+                品牌识别：陈乔普论字体排印作为构建理念的精准语言，2025年，英国诺里奇<br>
+                最佳出版，Fedrigoni出版社，2025年，意大利维罗纳<br>
+                《生活》杂志，11月刊，RCS MediaGroup SpA，2025年，米兰，意大利<br>
+                第29届华沙国际海报双年展，华沙美术学院，2025年，波兰华沙<br>
+                TYPEONE杂志第8期：日本平面设计×字体排印特刊，TYPE01有限公司，2024年，英国萨里郡<br>
+                模式与角色：平面设计的诗学，Graphic-sha出版社，2023年，东京，日本<br>
+                《Slanted》杂志第42期，Slanted Publishers UG出版社，2023年，德国卡尔斯鲁厄<br>
+                《It's Nice That：五位设计师和工作室打造精美书籍封面》，2022年，英国伦敦<br>
+                《真不错：陈乔普在其精心设计的书籍中强调字体排印的重要性》，2022年，英国伦敦<br>
+                De Monsterkamer：纸上陈乔普，2021，荷兰阿姆斯特丹<br>
+                2021年莫斯科国际字体设计节目录，俄罗斯莫斯科<br>
+                《设计如何让我们思考、感受和行动》，普林斯顿建筑出版社，2021年，纽约，美国<br>
+                《It's Nice That: A Book on Books》一书探讨了书籍设计与出版的过去、现在和未来，2020年，英国伦敦。<br>
+                《真不错：陈乔普谈其在平面设计中“隐藏信息”的转变》，2019年，英国伦敦<br>
+                双语：多种文字系统的排版和平面设计，Niggli，2018，瑞士萨伦斯坦<br>
+                IDEA杂志第380期，横尾忠则2010年以来的近期作品，西文堂新工社，2018年，东京，日本<br>
+                AGI 2007–2017 年新成员，Hesign，2018 年，德国柏林<br>
+                IDEA杂志第376期，平面设计师与展览，诚文堂新光社，2017年，东京，日本<br>
+                《真不错：陈乔普的作品旨在凸显“文字在中国平面设计中的重要性”》，2017年，英国伦敦<br>
+                《真好：陈乔普精心设计的荷兰现代主义书籍》，2016年，英国伦敦。<br>
+                IDEA杂志第375期，佐藤浩一的现象学，西文堂新工社，2016年，东京，日本<br>
+                《真不错：台湾平面设计师陈乔普的精美封面设计》，2016年，英国伦敦<br>
+                《真好：克制与孤独——陈乔普精妙的简约作品》，2014年，英国伦敦<br>
+                《书满为患：纸上墨迹——新出版物的设计与概念》，Gestalten出版社，2013年，德国柏林。<br>
+                Typojanchi：国际字体双年展，韩国工艺设计基金会，2011年，韩国<br>
+                《字体排印》杂志第266期：2011年日本字体排印协会台北之旅，东京，日本
+            </div>
+            <div class="divider"></div>
+            <div class="text-footer">
+                DESIGN BY © CHOOPCHEN Ltd.<br><br>
+                Visual Design / Creative Direction / Digital Art<br><br>
+                Everything is designed.<br><br>
+                © 1997–2026 陈乔普有限公司。所有内容均受版权法保护。本资料仅供个人现场浏览。未经事先许可，禁止任何形式的复制、下载、公开传播或商业用途。
+            </div>
+        </div>
     </div>
 </section>
-
 </body>
 </html>

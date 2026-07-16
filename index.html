@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CC__Home</title>
-    <!-- 网站图标 -->
     <link rel="icon" type="image/png" href="./images/头像1.png">
     <link rel="stylesheet" href="cursor-style.css">
     <style>
-        /* ===== 字体 ===== */
         @font-face {
             font-family: 'MyMenuFont';
             src: url('./fonts/Verdana.ttf') format('truetype');
@@ -16,48 +14,60 @@
             font-style: normal;
             font-display: swap;
         }
-
         * {
-            margin:0; padding:0; box-sizing:border-box;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeLegibility;
         }
         body {
             font-family: "MyMenuFont", "PingFang SC", "Microsoft YaHei", sans-serif;
-            color:#e0e0e0;
-            line-height:1;
-            letter-spacing:0.3px;
-            overflow:hidden;
+            color: #e0e0e0;
+            line-height: 1;
+            letter-spacing: 0.4px;
             font-smooth: always;
-            background:#000;
+            background: #000;
+            overflow-y: auto;
+            min-height: 100vh;
+            padding-bottom: 30vh;
+            scroll-behavior: smooth;
         }
+        /* 背景容器 */
         .carousel-bg {
-            position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:-1;
-            background:#000;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background: #000;
         }
         .carousel-bg img {
-            position:absolute; 
-            width:100%; 
-            height:100%; 
-            object-fit:cover; 
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             transition: opacity 1.2s ease-in-out;
-            opacity:0;
+            opacity: 0;
         }
         .carousel-bg img.active {
-            opacity:1;
+            opacity: 1;
         }
-
+        /* 导航栏边距跟随窗口高度缩放 */
         nav {
-            position:fixed; 
-            top:12px; 
-            left:12px; 
-            z-index:999; 
-            display:flex; 
-            flex-direction:column; 
-            gap:4px; 
+            position: relative;
+            top: auto;
+            left: auto;
+            margin-top: clamp(6px, 1.2vh, 12px);
+            margin-left: clamp(6px, 1.2vh, 12px);
+            display: flex;
+            flex-direction: column;
+            gap: clamp(2px, 0.4vh, 4px);
             transition: color 0.3s ease;
             font-family: 'MyMenuFont', Verdana, sans-serif;
+            z-index: 999;
         }
         nav * {
             color: inherit;
@@ -67,315 +77,185 @@
         nav a:visited,
         nav a:hover,
         nav a:active {
-            color: inherit !important; 
+            color: inherit !important;
         }
+        /* 字号上限提升至18px，vh系数加大，窗口拉高文字放大更明显 */
         .logo {
-            font-size:10px; 
-            font-weight:400; 
-            line-height:0.8; 
+            font-size: clamp(7px, 1.4vh, 18px);
+            font-weight: 500;
+            line-height: 0.8;
         }
-        .menu a, .menu span {
-            display:inline-block; 
-            text-decoration:none; 
-            font-size:10px; 
-            font-weight:400; 
-            line-height:0.8; 
-            transition: all 0.4s cubic-bezier(0.19,1,0.22,1);
+        .menu a,
+        .menu span {
+            display: inline-block;
+            text-decoration: none;
+            font-size: clamp(7px, 1.4vh, 18px);
+            font-weight: 500;
+            line-height: 0.8;
+            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
         }
         .menu a:hover {
-            transform: translateX(4px); 
-            opacity:0.7;
+            transform: translateX(clamp(2px, 0.4vh, 4px));
+            opacity: 0.7;
         }
         .menu {
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: clamp(1px, 0.2vh, 2px);
         }
         .link-group {
             display: flex;
             align-items: center;
-            gap: 2px;
+            gap: clamp(1px, 0.2vh, 2px);
         }
-
-        nav.menu-light { color: #000; }
-        nav.menu-dark { color: #fff; }
-
-        /* 加载提示 */
-        #loadingIndicator {
+        nav.menu-light {
+            color: #000;
+        }
+        nav.menu-dark {
+            color: #fff;
+        }
+        /* 加载指示器跟随高度缩放 */
+        #page-loader {
             position: fixed;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            color: rgba(255,255,255,0.3);
-            font-size: 11px;
-            letter-spacing: 2px;
-            font-family: 'MyMenuFont', Verdana, sans-serif;
-            pointer-events: none;
-            transition: opacity 0.6s ease;
+            bottom: clamp(15px, 2.5vh, 30px);
+            left: clamp(15px, 2.5vh, 30px);
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+            visibility: visible;
+        }
+        #page-loader.hidden {
             opacity: 0;
+            visibility: hidden;
         }
-        #loadingIndicator.visible { opacity: 1; }
-
-        /* 错误提示（当所有图片加载失败时显示） */
-        #errorMsg {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: rgba(255,255,255,0.2);
-            font-size: 14px;
-            font-family: 'MyMenuFont', Verdana, sans-serif;
-            text-align: center;
-            pointer-events: none;
-            display: none;
-            z-index: 999;
+        .loader-spinner {
+            width: clamp(14px, 2.3vh, 28px);
+            height: clamp(14px, 2.3vh, 28px);
+            border: 3px solid rgba(255, 255, 255, 0.15);
+            border-top: 3px solid #ffffff;
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+            box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* 隐藏滚动条 */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+        html {
+            scrollbar-width: none;
         }
     </style>
 </head>
 <body>
-<div class="cursor"></div><div class="cursor-trail"></div>
-<script src="cursor-script.js"></script>
-
-<div class="carousel-bg" id="carouselBg">
-    <img id="bgSlider" src="" alt="background">
-</div>
-
-<div id="loadingIndicator" class="visible">加载中…</div>
-<div id="errorMsg">⚠️ 图片加载失败，请检查路径</div>
-
-<nav id="mainNav">
-    <div class="logo">DESIGN BY © CHOOPCHEN Ltd.</div>
-    <div class="menu">
-        <a href="index.html">CC__Home</a>
-        <div class="link-group">
-            <a href="works.html">CC__Works</a><span>__</span><a href="photographs.html">Photographs</a>
-        </div>
-        <a href="about.html">CC__Information</a>
-        <a href="contact.html">CC__Contact</a>
+    <!-- 自定义光标 -->
+    <div class="cursor"></div>
+    <div class="cursor-trail"></div>
+    <script src="cursor-script.js"></script>
+    <!-- 加载指示器 -->
+    <div id="page-loader">
+        <div class="loader-spinner"></div>
     </div>
-</nav>
-
-<script>
-(function() {
-    'use strict';
-
-    // ---------- 配置 ----------
-    const TOTAL_IMAGES = 48;
-    const SWITCH_INTERVAL = 5000;
-    const TRANSITION_DURATION = 1200;
-    const IMAGE_PATH_PREFIX = './images2/文件';
-    const IMAGE_PATH_SUFFIX = '.jpg';
-
-    // ---------- DOM ----------
-    const bgImg = document.getElementById('bgSlider');
-    const nav = document.getElementById('mainNav');
-    const loadingIndicator = document.getElementById('loadingIndicator');
-    const errorMsg = document.getElementById('errorMsg');
-
-    // ---------- 状态 ----------
-    let currentIndex = 0;
-    let isTransitioning = false;
-    let timerId = null;
-    let isFirstImageShown = false;   // 是否已显示第一张图片
-
-    // 图片缓存：{ index: { img, brightness } }
-    const imageCache = {};
-
-    // ---------- 生成随机路径列表 ----------
-    function generateShuffledImageList() {
-        const list = [];
-        for (let i = 1; i <= TOTAL_IMAGES; i++) {
-            list.push(IMAGE_PATH_PREFIX + i + IMAGE_PATH_SUFFIX);
-        }
-        for (let i = list.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [list[i], list[j]] = [list[j], list[i]];
-        }
-        return list;
-    }
-    const imageList = generateShuffledImageList();
-
-    // ---------- 工具：计算亮度 ----------
-    function getImageBrightness(img) {
-        const canvas = document.createElement('canvas');
-        const scale = 50;
-        canvas.width = scale;
-        canvas.height = scale;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, scale, scale);
-        const imageData = ctx.getImageData(0, 0, scale, scale);
-        const data = imageData.data;
-        let sum = 0;
-        for (let i = 0; i < data.length; i += 4) {
-            const r = data[i], g = data[i+1], b = data[i+2];
-            sum += (r + g + b) / 3;
-        }
-        return sum / (data.length / 4);
-    }
-
-    // ---------- 更新菜单颜色 ----------
-    function updateMenuColor(brightness) {
-        if (brightness > 128) {
-            nav.classList.remove('menu-dark');
-            nav.classList.add('menu-light');
-        } else {
-            nav.classList.remove('menu-light');
-            nav.classList.add('menu-dark');
-        }
-    }
-
-    // ---------- 加载单张图片（返回 Promise<{img, brightness} | null>） ----------
-    function loadImage(index) {
-        return new Promise((resolve) => {
-            // 如果已缓存且成功，直接返回
-            if (imageCache[index] && imageCache[index].img) {
-                resolve(imageCache[index]);
-                return;
+    <!-- 背景轮播（固定） -->
+    <div class="carousel-bg" id="carouselBg">
+        <img id="bgSlider" src="" alt="background">
+    </div>
+    <!-- 菜单（滚动） -->
+    <nav id="mainNav">
+        <div class="logo">DESIGN BY © CHOOPCHEN Ltd.</div>
+        <div class="menu">
+            <a href="index.html">CC__Home</a>
+            <div class="link-group">
+                <a href="works.html">CC__Works</a><span>__</span><a href="photographs.html">Photographs</a>
+            </div>
+            <a href="about.html">CC__Information</a>
+            <a href="contact.html">CC__Contact</a>
+        </nav>
+    <script>
+        (function() {
+            // 循环改为1~50，新增两张图片文件49、文件50
+            function generateImageList() {
+                const list = [];
+                for (let i = 1; i <= 50; i++) {
+                    list.push(`./images2/文件${i}.jpg`);
+                }
+                for (let i = list.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [list[i], list[j]] = [list[j], list[i]];
+                }
+                return list;
             }
-
-            const src = imageList[index];
-            const img = new Image();
-            img.onload = function() {
-                const brightness = getImageBrightness(img);
-                const cached = { img, brightness };
-                imageCache[index] = cached;
-                resolve(cached);
-            };
-            img.onerror = function() {
-                console.warn('图片加载失败:', src);
-                imageCache[index] = null;  // 标记失败
-                resolve(null);
-            };
-            img.src = src;
-        });
-    }
-
-    // ---------- 尝试显示指定索引（需已加载） ----------
-    function showImage(index) {
-        const cached = imageCache[index];
-        if (!cached || !cached.img) {
-            console.warn('试图显示未加载的图片:', index);
-            return false;
-        }
-
-        bgImg.src = cached.img.src;
-        updateMenuColor(cached.brightness);
-        bgImg.classList.add('active');
-
-        if (!isFirstImageShown) {
-            isFirstImageShown = true;
-            loadingIndicator.classList.remove('visible');
-        }
-        return true;
-    }
-
-    // ---------- 核心：初始化（确保至少一张图片成功加载） ----------
-    async function init() {
-        // 尝试从第一张开始，依次加载，直到成功
-        let successIndex = -1;
-        for (let i = 0; i < imageList.length; i++) {
-            const result = await loadImage(i);
-            if (result) {
-                successIndex = i;
-                break;
+            const imageList = generateImageList();
+            const bgImg = document.getElementById('bgSlider');
+            const nav = document.getElementById('mainNav');
+            let currentIndex = 0;
+            let isTransitioning = false;
+            function getImageBrightness(img) {
+                const canvas = document.createElement('canvas');
+                const scale = 50;
+                canvas.width = scale;
+                canvas.height = scale;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, scale, scale);
+                const imageData = ctx.getImageData(0, 0, scale, scale);
+                const data = imageData.data;
+                let sum = 0;
+                for (let i = 0; i < data.length; i += 4) {
+                    const r = data[i], g = data[i+1], b = data[i+2];
+                    sum += (r + g) / 3;
+                }
+                return sum / (data.length / 4);
             }
-        }
-
-        if (successIndex === -1) {
-            // 所有图片加载失败
-            errorMsg.style.display = 'block';
-            loadingIndicator.classList.remove('visible');
-            console.error('所有图片加载失败，请检查路径或网络');
-            return;
-        }
-
-        // 显示成功加载的图片
-        currentIndex = successIndex;
-        showImage(currentIndex);
-
-        // 预加载后续几张（非阻塞）
-        for (let i = 1; i <= 3; i++) {
-            const nextIdx = (currentIndex + i) % imageList.length;
-            if (!imageCache[nextIdx]) {
-                loadImage(nextIdx).catch(() => {});
-            }
-        }
-
-        // 启动轮播
-        timerId = setInterval(nextImage, SWITCH_INTERVAL);
-    }
-
-    // ---------- 切换到下一张 ----------
-    function nextImage() {
-        if (isTransitioning) return;
-
-        // 寻找下一张可用的图片（跳过加载失败的）
-        let nextIdx = (currentIndex + 1) % imageList.length;
-        let attempts = 0;
-        // 最多尝试全部图片，避免死循环
-        while (attempts < imageList.length) {
-            // 如果已缓存且成功，则使用
-            if (imageCache[nextIdx] && imageCache[nextIdx].img) {
-                break;
-            }
-            // 否则尝试加载（异步，但不等待，直接跳过该张，继续找下一张）
-            // 但为了不阻塞，我们跳过，并在后台加载
-            if (!imageCache[nextIdx]) {
-                loadImage(nextIdx).catch(() => {}); // 静默加载
-            }
-            nextIdx = (nextIdx + 1) % imageList.length;
-            attempts++;
-        }
-
-        // 如果找到了可用的图片，切换
-        if (attempts < imageList.length && imageCache[nextIdx] && imageCache[nextIdx].img) {
-            doSwitch(nextIdx);
-        } else {
-            // 没有可用图片，可能是所有图片都加载失败，此时什么都不做
-            console.warn('没有可用的下一张图片');
-        }
-    }
-
-    // 执行切换
-    function doSwitch(newIndex) {
-        if (isTransitioning || newIndex === currentIndex) return;
-
-        isTransitioning = true;
-        bgImg.classList.remove('active');
-
-        setTimeout(() => {
-            currentIndex = newIndex;
-            showImage(currentIndex);
-            isTransitioning = false;
-
-            // 预加载后续几张
-            for (let i = 1; i <= 2; i++) {
-                const nextIdx = (currentIndex + i) % imageList.length;
-                if (!imageCache[nextIdx]) {
-                    loadImage(nextIdx).catch(() => {});
+            function updateMenuColor(brightness) {
+                if (brightness > 128) {
+                    nav.classList.remove('menu-dark');
+                    nav.classList.add('menu-light');
+                } else {
+                    nav.classList.remove('menu-light');
+                    nav.classList.add('menu-dark');
                 }
             }
-        }, TRANSITION_DURATION);
-    }
-
-    // ---------- 页面可见性 ----------
-    document.addEventListener('visibilitychange', function() {
-        if (document.hidden) {
-            if (timerId) {
-                clearInterval(timerId);
-                timerId = null;
+            function nextImage() {
+                if (isTransitioning) return;
+                isTransitioning = true;
+                bgImg.classList.remove('active');
+                setTimeout(() => {
+                    currentIndex = (currentIndex + 1) % imageList.length;
+                    bgImg.src = imageList[currentIndex];
+                    bgImg.classList.add('active');
+                    bgImg.onload = function() {
+                        const brightness = getImageBrightness(bgImg);
+                        updateMenuColor(brightness);
+                    };
+                    if (bgImg.complete) {
+                        bgImg.onload && bgImg.onload();
+                    }
+                    isTransitioning = false;
+                }, 1200);
             }
-        } else {
-            if (!timerId && isFirstImageShown) {
-                timerId = setInterval(nextImage, SWITCH_INTERVAL);
+            // 初始化第一张图片，变量无错误
+            bgImg.src = imageList[0];
+            bgImg.onload = function() {
+                const brightness = getImageBrightness(bgImg);
+                updateMenuColor(brightness);
+                bgImg.classList.add('active');
+            };
+            if (bgImg.complete) {
+                bgImg.onload && bgImg.onload();
             }
-        }
-    });
-
-    // ---------- 启动 ----------
-    init();
-})();
-</script>
+            setInterval(nextImage, 5000);
+        })();
+        // 加载完成后隐藏指示器
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('page-loader');
+            if (loader) {
+                loader.classList.add('hidden');
+            }
+        });
+    </script>
 </body>
 </html>
