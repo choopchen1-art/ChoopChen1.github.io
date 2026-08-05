@@ -16,7 +16,6 @@
             font-style: normal;
             font-display: swap;
         }
-
         * { 
             margin:0; padding:0; box-sizing:border-box;
             -webkit-font-smoothing: antialiased;
@@ -27,30 +26,29 @@
             font-family: "MyMenuFont", "PingFang SC", "Microsoft YaHei", sans-serif; 
             color:#000; 
             line-height:1;
-            letter-spacing:0.3px; 
+            letter-spacing:0.4; /* 与photographs统一字间距 */
             overflow-x:hidden; 
             background:#fff;
             position: relative;
         }
-
         .carousel-bg { 
             position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:-1; 
             background:#fff;
         }
-
+        /* ========== 菜单栏样式全部同步photographs.html的clamp自适应规格 ========== */
         nav{
             position:absolute;
-            top:12px; 
-            left:12px; 
+            top: clamp(6px, 1.2vh, 12px); 
+            left: clamp(6px, 1.2vh, 12px); 
             z-index:999; 
             display:flex; 
             flex-direction:column; 
-            gap:4px; 
-            font-family: 'MyMenuFont', Verdana, sans-serif; /* 应用字体 */
+            gap: clamp(2px, 0.4vh, 4px);
+            font-family: 'MyMenuFont', Verdana, sans-serif;
         }
         .logo{
-            font-size:10px;   /* 从9px改为10px */
-            font-weight:400; 
+            font-size: clamp(7px, 1.4vh, 18px);
+            font-weight: 500; 
             color:#000; 
             line-height:0.8; 
             transition:0.3s;
@@ -60,27 +58,26 @@
             display:inline-block; 
             text-decoration:none; 
             color:#000; 
-            font-size:10px;   /* 从9px改为10px */
-            font-weight:400; 
+            font-size: clamp(7px, 1.4vh, 18px);
+            font-weight: 500; 
             line-height:0.8; 
             transition: all 0.4s cubic-bezier(0.19,1,0.22,1);
         }
         .menu a:hover{
-            transform: translateX(4px); 
+            transform: translateX(clamp(2px, 0.4vh, 4px)); 
             opacity:0.7;
-            font-weight:400;
-        }
-        .menu {
-            display: flex;
-            flex-direction: column;
-            gap: 2px; 
         }
         .link-group {
             display: flex;
             align-items: center;
-            gap: 2px; 
+            gap: clamp(1px, 0.2vh, 2px);
         }
-
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: clamp(1px, 0.2vh, 2px);
+        }
+        /* ========== 下方作品列表原有样式完全保留无修改 ========== */
         .section{
             width: 100vw; 
             margin:0 auto; 
@@ -147,11 +144,10 @@
         .item p{
             font-size:11px; color:#333; margin-top:4px;
         }
-
         @media (max-width: 768px) {
             nav {
-                top: 8px; 
-                left: 8px; 
+                top: clamp(6px, 1.2vh, 8px); 
+                left: clamp(6px, 1.2vh, 8px); 
             }
             .grid {
                 gap: 60px; 
@@ -166,10 +162,8 @@
     </style>
 </head>
 <body>
-
 <div class="cursor"></div><div class="cursor-trail"></div>
 <script src="cursor-script.js"></script>
-
 <nav>
     <div class="logo">DESIGN BY © CHOOPCHEN Ltd.</div>
     <div class="menu">
@@ -181,7 +175,6 @@
         <a href="contact.html">CC__Contact</a>
     </div>
 </nav>
-
 <section class="section">
     <h2 class="title">Works</h2>
     <div class="grid">
@@ -615,7 +608,6 @@
         </div>
     </div>
 </section>
-
 <script>
 const items = document.querySelectorAll('.item');
 const observer = new IntersectionObserver((entries) => {
@@ -631,6 +623,5 @@ const observer = new IntersectionObserver((entries) => {
 });
 items.forEach(item => observer.observe(item));
 </script>
-
 </body>
 </html>
